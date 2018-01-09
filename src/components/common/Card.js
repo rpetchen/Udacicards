@@ -1,14 +1,17 @@
 import React from 'react'
-import {View, Text} from 'react-native'
+import {View, Text, TouchableOpacity} from 'react-native'
 
 const Card = (props) =>{
 
-	const {title, length} = props
+	const {title, length, onPress} = props
+	
 	return (
-		<View style={styles.containerStyle}> 
-		<Text style={styles.titleStyle}>  {title} </Text>
-		<Text style={styles.countStyle}>  {length} cards </Text>
-		</View> 
+		<TouchableOpacity onPress={onPress}>
+			<View style={styles.containerStyle}> 
+				<Text style={styles.titleStyle}>  {title} </Text>
+				<Text style={styles.countStyle}>  {length} cards </Text>
+			</View> 
+		</TouchableOpacity>
 	)
 }
 

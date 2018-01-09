@@ -1,13 +1,41 @@
 import React from 'react'
-import {TabNavigator} from 'react-navigation'
+import {TabNavigator, StackNavigator} from 'react-navigation'
 import DeckListView from './components/DeckListView'
 import NewDeckView from './components/NewDeckView'
+import IndividualDeckView from './components/IndividualDeckView'
+
+
+
+
+
+const DeckListStack = StackNavigator({
+
+DeckList: {
+    screen: DeckListView,
+     navigationOptions: {
+      title: 'Deck List',
+    },
+  },
+  DeckView: {
+    screen: IndividualDeckView,
+     navigationOptions: {
+      title: 'Your Deck',
+    },
+  },
+},
+  {
+    navigationOptions:{
+    headerStyle:{
+      backgroundColor: '#DDDDDD'
+    }
+  }
+});
 
 
 
 const Tabs = TabNavigator({
    DeckList: {
-    screen: DeckListView,
+    screen: DeckListStack,
     navigationOptions: {
       tabBarLabel: 'Deck List' 
     },
@@ -23,7 +51,7 @@ const Tabs = TabNavigator({
   tabBarOptions: {
   	activeTintColor: '#B1EEBC',
      style: {
-    backgroundColor: '#241541',
+    backgroundColor: '#3D9970',
 
 
   },

@@ -7,10 +7,15 @@ import Card from './common/Card'
 
 class DeckListView extends React.Component {
 
+
+
 componentDidMount(){
 this.props.getDecks
 }
 
+onPress=()=>{
+  this.props.navigation.navigate('DeckView')
+}
 
   render() {
   	const {decks} = this.props
@@ -27,7 +32,10 @@ this.props.getDecks
                 data={deckList}
                 renderItem={({item}) =>(
                     
-                <Card title = {item.title} length = {item.questions.length} />
+                <Card title = {item.title} 
+                length = {item.questions.length} 
+                onPress={this.onPress}
+                />
                 )}
                 keyExtractor={(item, index) => index}
             />
