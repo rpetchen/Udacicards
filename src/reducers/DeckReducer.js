@@ -21,10 +21,25 @@ const initialState = {
         answer: 'The combination of a function and the lexical environment within which that function was declared.'
       }
     ]
+  },
+
+  NewDeck: {
+    title: 'new deck',
+    questions: [
+     
+    ]
+  },
+  CivilWar:{
+    title: 'Civil War',
+    questions:[
+      {
+        question: 'What were the dates of the battle of Gettysburg?',
+        answer: 'July 1 - July 3 1863'
+      }
+
+    ]
   }
 }
-
-
 
 export default (state = initialState, action) => {
   switch (action.type) {

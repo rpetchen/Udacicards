@@ -27,7 +27,7 @@ this.props.getDecks
                 data={deckList}
                 renderItem={({item}) =>(
                     
-                <Text> {JSON.stringify(item.title)} </Text>
+                <Card title = {item.title} length = {item.questions.length} />
                 )}
                 keyExtractor={(item, index) => index}
             />
