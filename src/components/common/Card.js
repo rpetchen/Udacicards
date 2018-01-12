@@ -6,10 +6,10 @@ const Card = (props) =>{
 	const {title, length, onPress} = props
 	
 	return (
-		<TouchableOpacity onPress={onPress}>
+		<TouchableOpacity onPress={() => onPress(title)}>
 			<View style={styles.containerStyle}> 
 				<Text style={styles.titleStyle}>  {title} </Text>
-				<Text style={styles.countStyle}>  {length} cards </Text>
+				<Text style={styles.countStyle}>  {length} Cards </Text>
 			</View> 
 		</TouchableOpacity>
 	)

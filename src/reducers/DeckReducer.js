@@ -1,3 +1,6 @@
+import {GET_DECKS, GET_SINGLE_DECK} from '../actions/index' 
+
+
 
 const initialState = {
   React: {
@@ -24,7 +27,7 @@ const initialState = {
   },
 
   NewDeck: {
-    title: 'new deck',
+    title: 'New Deck',
     questions: [
      
     ]
@@ -43,9 +46,15 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_DECKS':
+    case GET_DECKS:
       return state;
+      break
+    case GET_SINGLE_DECK:
+      return {...state[action.payload]};
+      break
     default:
       return state;
   }
 };
+
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import {connect} from 'react-redux'
-import getDecks from '../actions/index'
+import {getDecks} from '../actions/index'
 import Card from './common/Card'
 
 
@@ -10,11 +10,11 @@ class DeckListView extends React.Component {
 
 
 componentDidMount(){
-this.props.getDecks
+this.props.getDecks()
 }
 
-onPress=()=>{
-  this.props.navigation.navigate('DeckView')
+onPress=(deck)=>{
+  this.props.navigation.navigate('DeckView', {deck})
 }
 
   render() {
