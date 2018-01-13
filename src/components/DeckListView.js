@@ -6,17 +6,17 @@ import {setDummyData, getDecks} from '../../utils/api'
 class DeckListView extends React.Component {
 
 state = {
- decks: {}
+ decks: []
 }
 
 componentDidMount(){
 
  setDummyData()
  .then(getDecks((key, asyncData) => {
-   this.setState({...this.state, decks:{
+   this.setState({...this.state, decks:[
     ...this.state.decks,
-    [key]: asyncData
- }})
+    asyncData
+ ]})
 }))
  AsyncStorage.getAllKeys().then((k)=>{
   const length = k.length 
@@ -30,33 +30,24 @@ onPress=(deck)=>{
   this.props.navigation.navigate('DeckView', {deck})
 }
 
-objTitle = (item) =>{
-  let objItem = JSON.parse(item)
-  return objItem.title
-}
-
-objQuestionCount = (item) => {
-  let objItem = JSON.parse(item)
-  return objItem.questions.length
-}
 
   render() {
-  	const {decks, length} = this.state
+    const {decks, length} = this.state
 
-  	if ( Object.keys(decks).length !== length ) {
-  		return <Text> Loading </Text>
-  	}
+    if ( decks.length !== length ) {
+      return <Text> Loading </Text>
+    }
+    
+  const deckList = decks.map((d) => {return JSON.parse(d)})
 
-  	const deckList = Object.keys(decks).map((d) => {return decks[d]})
-  
     return (
       <FlatList
                 data={deckList}
                 extraData={this.state} 
                 renderItem={({item}) =>(
 
-                <Card title = {this.objTitle(item)} 
-                length = {this.objQuestionCount(item)} 
+                <Card title = {item.title} 
+                length = {item.questions.length} 
                 onPress={this.onPress}
                 />
                
@@ -66,6 +57,5 @@ objQuestionCount = (item) => {
     );
   }
 }
-
 
 export default DeckListView
