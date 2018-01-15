@@ -11,6 +11,7 @@ state = {
 
 componentDidMount(){
 
+console.log('mount')
  setDummyData()
  .then(getDecks((key, asyncData) => {
    this.setState({...this.state, decks:[
@@ -19,6 +20,7 @@ componentDidMount(){
  ]})
 }))
  AsyncStorage.getAllKeys().then((k)=>{
+  
   const length = k.length 
   this.setState({length})
 })

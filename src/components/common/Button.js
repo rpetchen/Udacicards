@@ -19,10 +19,10 @@ const styles = {
 		fontSize: 16,
 		fontWeight: '600',
 		paddingTop: 10,
-		paddingBottom: 10
+		paddingBottom: 10,
+		height: 50
 	},
 	buttonStyle: {
-		flex: 1,
 		alignSelf: 'stretch',
 		backgroundColor: '#fff',
 		borderRadius: 5,
@@ -33,4 +33,4 @@ const styles = {
 	}
 }
 
-export {Button } 
+export default Button
