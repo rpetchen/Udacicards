@@ -11,7 +11,7 @@ state = {
 
 componentDidMount(){
 
-console.log('mount')
+
  setDummyData()
  .then(getDecks((key, asyncData) => {
    this.setState({...this.state, decks:[
