@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, Button } from 'react-native';
+import { StyleSheet, Text, View, Animated, Button, TextInput, KeyboardAvoidingView } from 'react-native';
 import DeckShell from './common/DeckShell'
+import {clearLocalNotification, setLocalNotification, addCardToDeck} from '../../utils/api'
 
 
 export default class IndividualDeckView extends React.Component {
@@ -12,12 +13,18 @@ export default class IndividualDeckView extends React.Component {
 		disableQuiz: false,
 		score: 0,
 		increment: false,
-		quizFinished: false
+		quizFinished: false,
+		addCard: false,
+		question : '',
+		answer: '',
+		title: ''
 	}
 
 
 	componentDidMount(){
-
+		this.setState({
+			title: this.props.navigation.state.params.deck
+		})
 		const {opacity, width, height} = this.state
 
 		Animated.timing(opacity, {toValue: 1, duration: 1000})
@@ -31,6 +38,69 @@ export default class IndividualDeckView extends React.Component {
 
 
 	}
+
+	addCardView=()=>{
+		const styles = {
+		inputStyle: {
+			color: 'black',
+			borderWidth: .5,
+			borderRadius: 10,
+			paddingRight: 5,
+			paddingLeft: 5,
+			fontSize: 18,
+			lineHeight: 23,
+			height: 50,
+			margin: 5,
+			width: 300
+
+		},
+		
+		containerStyle: {
+			borderBottomWidth: 1,
+    		alignItems: 'center',
+    		justifyContent: 'center',
+   			 height: 325,
+   			 paddingBottom: 30
+			
+		}
+		} 
+	const keyboardVerticalOffset =  80
+	const {width} = this.state
+	return(
+	<KeyboardAvoidingView
+	behavior="padding"
+	 style={styles.containerStyle}
+	 keyboardVerticalOffset={keyboardVerticalOffset}
+	 >
+      <View>
+    	<TextInput style = {styles.inputStyle}
+     	label="Question"
+     	placeholder="Question"
+     	value={this.state.question}
+     	onChangeText = {text => this.setState({question: text})}
+     	underlineColorAndroid='transparent'
+     	/>
+      </View>
+
+     <View>
+     	<TextInput style = {styles.inputStyle}
+     	label="Answer"
+     	placeholder="Answer"
+     	value={this.state.answer}
+     	onChangeText = {text => this.setState({answer: text})}
+     	underlineColorAndroid='transparent'
+     	
+     	/>
+
+     </View>
+
+     <Text> {this.state.error ? this.state.error : undefined} </Text>
+   </KeyboardAvoidingView>
+
+
+		)
+	}
+
 
 
 	startQuiz=()=>{
@@ -46,6 +116,8 @@ export default class IndividualDeckView extends React.Component {
 	 if (cardIndex == num){
 	 	this.setState({quizFinished : true,
 	 				   quizView: false})
+	 	clearLocalNotification()
+	 	 .then(setLocalNotification)
 	 }
 }
 
@@ -53,14 +125,37 @@ export default class IndividualDeckView extends React.Component {
 		const {quizFinished} = this.state
 		if (!quizFinished){
 		this.setState({score: this.state.score + 1,
-					   increment: true})
-	}
-		
+					   increment: true})}	
 	}
 
 	onPressIncorrect = () =>{
-		
+		const {quizFinished} = this.state
+		if (!quizFinished){
+		this.setState({increment: true})
+	}
+}
 
+	addCard=(e)=>{
+		this.setState({addCard: true})
+	}
+
+	returnDeck=()=>{
+		this.setState({quizFinished : false,
+	 				   quizView: false})
+	
+	}
+
+	onSubmit=()=>{
+	const {answer, question} = this.state
+	const {title} = this.state
+	if (answer && question){
+		
+		addCardToDeck(title, {question, answer })
+	}
+
+	else {
+		this.setState({error: 'Missing Required Field'})
+	}
 	}
 
 	renderButtons=()=>{
@@ -81,26 +176,25 @@ export default class IndividualDeckView extends React.Component {
 
 		}
 		const {buttonStyle, buttonContainer} = styles
-		const {disableQuiz, quizFinished} = this.state
+		const {disableQuiz, quizFinished, addCard, quizView} = this.state
 
-		if (!this.state.quizView){
+		if (!quizView && !addCard){
 		return (
 			<View style = {buttonContainer}>
 			{!quizFinished ? (
 				<View style = {styles.buttonStyle}>  			
      			<Button
      			title = "Add Card"
-     			onPress={()=> this.onPress('Add Card')}
+     			onPress={()=> this.addCard('Add Card')}
      			color="#FF1493"
      			/>
      			</View>
      			) : (
      			<View style = {styles.buttonStyle}>  			
      			<Button
-     			onPress={()=>{console.log('test')}}
+     			onPress={this.returnDeck}
      			title = "Return To Deck"
      			color="purple"
-     			disabled = {disableQuiz}
      			/>
      			</View>
      			)}
@@ -117,7 +211,7 @@ export default class IndividualDeckView extends React.Component {
      		</View>
 			)
 		}
-		else {
+		else if (quizView && !addCard) {
 			return(
 			<View style = {buttonContainer}>
 				<View style = {styles.buttonStyle}>  			
@@ -138,15 +232,30 @@ export default class IndividualDeckView extends React.Component {
      		</View>
 			)
 		}
+
+		else if (addCard){
+			return (
+				<View style = {buttonContainer}>
+				<View style = {styles.buttonStyle}>  			
+     			<Button
+     			onPress={this.onSubmit}
+     			title = "Submit"
+     			color="black"
+     			/>
+     			</View>
+     		</View>
+     		)
+		}
 	}
 
   render() {
-  	const {opacity, width, height, increment, quizFinished, score} = this.state
-  	const {quizView} = this.state
+  	const {opacity, width, height, increment, quizFinished, score, addCard, quizView} = this.state
+  	const {title} = this.state
     return (
      <Animated.View  style={{opacity, height}}>
      <View style = {{flex: 3}}>
-     <DeckShell 
+     {addCard ? this.addCardView()
+     : <DeckShell 
      title={this.props.navigation.state.params.deck} 
      quizView={quizView}
      cardCheck={this.cardCheck}
@@ -154,6 +263,7 @@ export default class IndividualDeckView extends React.Component {
      quizFinished = {quizFinished}
      score = {score}
       />
+     }
      </View>
     
   		{this.renderButtons()}
