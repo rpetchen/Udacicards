@@ -188,13 +188,12 @@ export default class IndividualDeckView extends React.Component {
       })],
     });
 
-    this.props.navigation.dispatch(resetAction);
     if (answer && question) {
 
       addCardToDeck(deck, {
         question,
         answer
-      });
+      }, () =>  this.props.navigation.dispatch(resetAction) );
     } else {
       this.setState({
         error: 'Missing Required Field'

@@ -41,7 +41,7 @@ export function addCardToDeck(title, card, callback) {
           card
         ]
       }))
-
+      .then(callback)
     })
 }
 
