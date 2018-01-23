@@ -175,24 +175,23 @@ export default class IndividualDeckView extends React.Component {
 //method for a user to add  the new card to the deck
   onSubmit = () => {
     const {answer, question} = this.state;
-    const {title} = this.state;
-    const navigate = (deck) => {
-      this.props.navigation.navigate('DeckList', {
-        deck
-      });
-    };
-
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({
-        routeName: 'DeckList'
+    const deck = this.state.title
+  
+    
+     const resetAction = NavigationActions.reset({
+      index: 1,
+      actions: [
+       NavigationActions.navigate({routeName: 'DeckList'}),
+       NavigationActions.navigate({
+        routeName: 'DeckView',
+        params: {deck}
       })],
     });
 
     this.props.navigation.dispatch(resetAction);
     if (answer && question) {
 
-      addCardToDeck(title, {
+      addCardToDeck(deck, {
         question,
         answer
       });
@@ -202,6 +201,11 @@ export default class IndividualDeckView extends React.Component {
       });
     }
   };
+
+
+  
+
+
 
 //method which returns jsx buttons. Criteria for determining which buttons to render is determined by the component state
   renderButtons = () => {
