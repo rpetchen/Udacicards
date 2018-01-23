@@ -7,7 +7,7 @@ import IndividualDeckView from './components/IndividualDeckView'
 
 
 
-
+//stack navigator to navigate from decklist to deckview
 const DeckListStack = StackNavigator({
 
   DeckList: {
@@ -32,7 +32,7 @@ const DeckListStack = StackNavigator({
   });
 
 
-
+//tab navigator for the deck view and new deck view
 const Tabs = TabNavigator({
   DeckList: {
     screen: DeckListStack,

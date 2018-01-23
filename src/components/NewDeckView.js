@@ -4,29 +4,18 @@ import { StyleSheet, Text, View, TextInput,
 import { NavigationActions } from 'react-navigation'
 import {saveDeckTitle} from '../../utils/api'
 
+
+//main class for rendering the new deck view. invoked when a user navigates by the new deck tab. 
+
 export default class NewDeckView extends React.Component {
 
 state ={
 	deck: ''
 }
 
-componentDidMount(){
-	console.log(this.props.navigation)
-}
-
+//method for submitting the new deck by passing the title and navigating the user to the deckview for the new deck
  onSubmit = () => {
  	const {deck} = this.state
- 	// const resetAction = NavigationActions.reset({
-  //     index: 0,
-  //     actions: [
-  //  		 NavigationActions.navigate({
-  //       routeName: 'DeckList'
-  //     }),
-  //       NavigationActions.navigate({ routeName: 'DeckView', params: { deck} }),  
-  //     ],
-  //     key: null
-  //   });
-
 
   const resetAction = NavigationActions.navigate({
   	routeName: 'DeckList',
@@ -50,12 +39,8 @@ componentDidMount(){
 
   }
 
-
+//render method for returning the jsx text and input field. custom styles are contained in the render method. 
   render() {
-
-
-
-
 
     const styles = {
       inputStyle: {

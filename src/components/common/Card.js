@@ -1,10 +1,10 @@
-import React from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
+import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 
 const Card = (props) =>{
 
 	const {title, length, onPress} = props
-	
+//card to render in listview for each deck
 	return (
 		<TouchableOpacity onPress={() => onPress(title)}>
 			<View style={styles.containerStyle}> 

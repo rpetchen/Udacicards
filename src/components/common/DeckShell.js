@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, AsyncStorage, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { View, Text, AsyncStorage, TouchableOpacity } from 'react-native';
 
 
 class DeckShell extends React.Component {
@@ -12,7 +12,7 @@ class DeckShell extends React.Component {
   }
 
   componentDidMount() {
-
+//retrieves the deck from AsyncStorage using the deck title as the key and setting the info to local state
     AsyncStorage.getItem(this.props.title)
       .then(val => {
         let item = JSON.parse(val)
@@ -28,7 +28,7 @@ class DeckShell extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const {questions, questionNum, checkFinished} = this.state
-
+//setting initial card view to question side if deck has cards
     if (questions.length > 0) {
       if (nextProps.score === 0) {
         this.setState({
@@ -36,11 +36,11 @@ class DeckShell extends React.Component {
           side: true,
         })
       }
-
+//call to cardCheck in order to determine whether quiz has finished
       if (!this.props.quizFinished && this.props.quizView) {
         this.props.cardCheck(questions.length, questionNum + 1)
       }
-
+//iterates to next card in deck if quiz has not finished
       if (nextProps.increment && questionNum + 1 < questions.length) {
         this.setState({
           questionNum: this.state.questionNum + 1
@@ -51,6 +51,7 @@ class DeckShell extends React.Component {
     }
   }
 
+// method for flipping form question side to answer side and back
   onPress = () => {
 
     this.setState({
@@ -75,6 +76,7 @@ class DeckShell extends React.Component {
       </Text>
     }
 
+//if quiz has finished return user score
 
     if (this.props.quizFinished) {
       return (
@@ -92,7 +94,7 @@ class DeckShell extends React.Component {
       )
     }
 
-
+//returns jsx with deck title and card count if quiz hasn't started or card questions and answers if quiz has started
     return (
       <View>
         { quizView ? <Text>

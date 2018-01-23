@@ -12,9 +12,9 @@ class DeckListView extends React.Component {
 
   componentDidMount() {
 
-
+    //set local notification to remind user to take a quiz if not taken for a day
     setLocalNotification()
-
+    //sets dummy data if no data available then gets decks and set to local state
     setDummyData()
       .then(getDecks((key, asyncData) => {
         if (key !== NOTIFICATION_KEY) {
@@ -38,19 +38,14 @@ class DeckListView extends React.Component {
 
   }
 
-
-  componentWillReceiveProps(nextProps) {
-    console.log(nextprops)
-  }
-
-
+//method for navigating user to deck view
   onPress = (deck) => {
     this.props.navigation.navigate('DeckView', {
       deck
     })
   }
 
-
+//render methdod which returns a flatlist view of all the decks returned from asyncstorage
   render() {
     const {decks, length} = this.state
 
